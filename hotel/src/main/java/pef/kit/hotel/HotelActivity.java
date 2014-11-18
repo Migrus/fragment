@@ -104,24 +104,29 @@ public class HotelActivity extends ActionBarActivity implements FormFragment.OnF
             showToast(getString(R.string.phoneValidation));
             return;
         }
-        if (!isValidEmail(((EditText)findViewById(R.id.email)).getText())) {
+        if (!isValidEmail(((EditText) findViewById(R.id.email)).getText())) {
             showToast(getString(R.string.emailValidation));
             return;
         }
         ArrayList<String> data = new ArrayList<String>();
-        data.add(0,((EditText) findViewById(R.id.name)).getText().toString());
-        data.add(1,((EditText) findViewById(R.id.address)).getText().toString());
-        data.add(2,((EditText) findViewById(R.id.phone)).getText().toString());
-        data.add(2,((EditText) findViewById(R.id.email)).getText().toString());
-        data.add(3,((EditText) findViewById(R.id.datum)).getText().toString());
+        data.add(0, ((EditText) findViewById(R.id.name)).getText().toString());
+        data.add(1, ((EditText) findViewById(R.id.address)).getText().toString());
+        data.add(2, ((EditText) findViewById(R.id.phone)).getText().toString());
+        data.add(2, ((EditText) findViewById(R.id.email)).getText().toString());
+        data.add(3, ((EditText) findViewById(R.id.datum)).getText().toString());
         Boolean breakfast = ((CheckBox) findViewById(R.id.breakfast)).isChecked();
         int days = ((Spinner) findViewById(R.id.days)).getSelectedItemPosition();
-        ResultsFragment formFragment = ResultsFragment.newInstance(data,breakfast,days);
+        if (findViewById(R.id.resultsFragment) == null) {
+            ResultsFragment formFragment = ResultsFragment.newInstance(data, breakfast, days);
             getFragmentManager().beginTransaction()
                     .replace(R.id.container, formFragment).addToBackStack(null)
                     .commit();
-
-
+        } else {
+            ResultsFragment formFragment = ResultsFragment.newInstance(data, breakfast, days);
+            getFragmentManager().beginTransaction()
+                    .add(R.id.resultsFragment, formFragment).addToBackStack(null)
+                    .commit();
+        }
     }
 
 
